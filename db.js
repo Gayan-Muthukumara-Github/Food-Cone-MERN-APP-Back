@@ -10,7 +10,7 @@ const mongoDB = async (server) => {
     console.log('Connected');
 
     const foodCollection = await mongoose.connection.db.collection('fooditem');
-    const foodCategoryCollection = await mongoose.connection.db.collection('foodCategory');
+    const foodCategoryCollection = await mongoose.connection.db.collection('categories');
     const customerReview = await mongoose.connection.db.collection('reviews');
     const data = await foodCollection.find({}).toArray();
     const catData = await foodCategoryCollection.find({}).toArray();
@@ -19,18 +19,15 @@ const mongoDB = async (server) => {
     global.foodCategoryCollection = catData;
     global.customerReview = CusRev;
 
-    // Set up Socket.io
     const io = socketIO(server);
 
     io.on('connection', (socket) => {
       console.log('A user connected');
 
-      // Example: Emit data to the client when connected
       socket.emit('foodData', data);
       socket.emit('categoryData', catData);
       socket.emit('reviewData', CusRev);
 
-      // Handle additional Socket.io events as needed
 
       socket.on('disconnect', () => {
         console.log('User disconnected');

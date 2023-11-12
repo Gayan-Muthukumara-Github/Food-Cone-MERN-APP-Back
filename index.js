@@ -6,7 +6,7 @@ const port = 5000;
 (async () => {
   await mongoDB();
   app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "https://foodconefront.onrender.com");
+    res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
     res.header(
       "Access-Control-Allow-Headers",
       "Origin, X-Requested-With, Content-Type, Accept"
@@ -22,6 +22,8 @@ const port = 5000;
   app.use('/api', require("./Routes/DisplayData"));
   app.use('/api', require("./Routes/OrderData"));
   app.use('/api', require("./Routes/CustomerReviews"));
+  app.use('/api', require("./Routes/AddCategory"));
+  app.use('/api', require("./Routes/AddItems"));
   app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
   });
