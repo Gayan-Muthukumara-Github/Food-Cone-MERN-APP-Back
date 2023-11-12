@@ -33,6 +33,28 @@ const mongoDB = async (server) => {
         console.log('User disconnected');
       });
     });
+
+    const foodChangeStream = foodCollection.watch();
+    foodChangeStream.on('change', async () => {
+      const newData = await foodCollection.find({}).toArray();
+      global.foodCollection = newData;
+      io.emit('foodData', newData);
+    });
+
+    const CategoryChangeStream = foodCategoryCollection.watch();
+    CategoryChangeStream.on('change', async () => {
+      const newData = await foodCategoryCollection.find({}).toArray();
+      global.foodCategoryCollection = newData;
+      io.emit('categoryData', newData);
+    });
+
+    const reviewChangeStream = customerReview.watch();
+    reviewChangeStream.on('change', async () => {
+      const newData = await customerReview.find({}).toArray();
+      global.customerReview = newData;
+      io.emit('reviewData', newData);
+    });
+
   } catch (error) {
     console.error('Error connecting to MongoDB:', error);
   }

@@ -15,7 +15,7 @@ const FoodItemSchema = new Schema({
         type: String,
         required: true,
     },
-    options: {
+    options: [{
         half: {
             type: String,
             required: true,
@@ -24,7 +24,7 @@ const FoodItemSchema = new Schema({
             type: String,
             required: true,
         },
-    },    
+    }],    
     description: {
         type: String,
         required: true,
@@ -32,7 +32,6 @@ const FoodItemSchema = new Schema({
 },
 {
     collection:"fooditem"
-}
-);
+});
 
 module.exports = mongoose.model('fooditem', FoodItemSchema)
